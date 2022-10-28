@@ -1,0 +1,40 @@
+Para ejecutar los microservicios primero se levanta consul
+ServidorHaproxy  
+servidor funcionando
+consul agent -ui -client=0.0.0.0 -server -bootstrap-expect=1 -data-dir=/tmp/consul -node=agent-one -bind=192.168.200.3 -enable-script-checks=true -config-dir=/etc/consul.d
+
+servidorConsul
+cliente funcionando
+consul agent -data-dir=/tmp/consul -node=agent-two -bind=192.168.200.2 -enable-script-checks=true -config-dir=/etc/consul.d
+
+ServidorHaproxy  
+consul join 192.168.200.2
+
+ServidorHaproxy  
+consul members
+
+
+luego se deben levantar los micro servicios en ambas maquinas
+~/consulService/app$ node index.js 3000 
+
+
+revisar micro servicios en ServidorHaproxy  
+http://192.168.200.3:8500/v1/agent/services
+
+ver estadisticas  en ServidorHaproxy  
+http://192.168.200.3:1936/haproxy?stats
+
+peticion en la aplicacion en el navegador
+http://192.168.200.3/
+
+--------- artillery en maquina anfitriona 
+probar version
+artillery dino
+
+
+realizar prueba inicial
+artillery quick --count 10 -n 20 http://192.168.90.2/
+
+
+realizar prueba de carga parado en la carpeta entornos desde el cmd
+artillery run -e staging my-script.yml
