@@ -1,3 +1,8 @@
+traer  aplicacion js en ambas maquinas
+
+git clone https://github.com/omondragon/consulService
+
+
 Para ejecutar los microservicios primero se levanta consul
 ServidorHaproxy  
 servidor funcionando
